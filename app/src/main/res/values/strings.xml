@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Practica_Activities</string>
     <string name="mas_info">mas info</string>
+    <string name="Description_1">Photoshop: this is a app is used to edit your photos</string>
 </resources>
