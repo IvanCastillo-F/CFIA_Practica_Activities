@@ -4,14 +4,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import com.example.practica_activities.Image.Companion.images
 import androidx.constraintlayout.widget.*
+import android.content.Intent
+
+
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initViews()
+        initView()
     }
 
 
@@ -21,13 +26,59 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnRight: ImageView
     private lateinit var btnMoreInfo: Button
 
+    var inum: Int = 0
 
-    private fun initViews(){
+    private fun initView(){
         clMenuImage = findViewById(R.id.clMenuImage)
         imageSelect = findViewById(R.id.imageSelect)
         btnLeft = findViewById(R.id.btnLeft)
         btnRight = findViewById(R.id.btnRight)
         btnMoreInfo = findViewById(R.id.btnMoreInfo)
 
+        imageSelect.setImageResource(images[inum].imageSrc!!.resource)
+
+        btnRight.setOnClickListener{
+            next()
+        }
+
+        btnLeft.setOnClickListener{
+            previous()
+        }
+        btnMoreInfo.setOnClickListener {
+            val intent = Intent(this, Selected_Image::class.java).apply{
+                putExtra("adobeSelected", inum.toString())
+            }
+            startActivity(intent)
+        }
     }
+
+    private fun next(){
+        when(inum){
+            in 0..8 ->
+            {
+                inum++
+                imageSelect.setImageResource(images[inum].imageSrc!!.resource)
+
+            }
+         else ->
+         {
+             inum = 0
+         }
+        }
+    }
+
+    private fun previous(){
+        when(inum){
+            in 1..9 ->
+            {
+                inum--
+                imageSelect.setImageResource(images[inum].imageSrc!!.resource)
+            }
+            else ->
+            {
+                inum = 9
+            }
+        }
+    }
+
 }

@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">Practica_Activities</string>
     <string name="mas_info">mas info</string>
+
     <string name="Description_1">Photoshop: this is a app is used to edit your photos</string>
+    <string name="Description_2">After Effects: this is a app is used to do animations</string>
+    <string name="Description_3">Illustrator: this is a app is used to do drawings</string>
+    <string name="Description_4">Dream Weaver: this is a app is used to design, code, and develop web sites, pages, and applications</string>
+    <string name="Description_5">Animate: this is a app that allows you to create high-quality vector graphics</string>
+    <string name="Description_6">Fuse: this is a app is used to create characters to add to your designs in Photoshop</string>
+    <string name="Description_7">Audition: this is a app is used to create, mix, edit and restore content in audio format</string>
+    <string name="Description_8">Indesign: this is a app is used for the digital composition of pages developed by the company Adobe Systems</string>
+    <string name="Description_9">Experience: this is a app is used to obtain information, content and interaction, among others.</string>
+    <string name="Description_10">Illustrator: this is a app is used to assist in all tasks of a digital photographers workflow</string>
 </resources>
