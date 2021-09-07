@@ -13,7 +13,7 @@ companion object{
     val images = arrayListOf(
         Image(ImageList.IM1,DescipList.DESC1,Star.NOSTAR,/*0*/),
         Image(ImageList.IM2,DescipList.DESC2,Star.NOSTAR,/*1*/),
-        Image(ImageList.IM3,DescipList.DESC3,Star.NOSTAR,/*2*/),
+        Image(ImageList.IM3,DescipList.DESC3,Star.NOSTAR),
         Image(ImageList.IM4,DescipList.DESC4,Star.NOSTAR,/*3*/),
         Image(ImageList.IM5,DescipList.DESC5,Star.NOSTAR,/*4*/),
         Image(ImageList.IM6,DescipList.DESC6,Star.NOSTAR,/*5*/),

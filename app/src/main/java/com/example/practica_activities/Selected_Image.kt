@@ -32,26 +32,26 @@ class Selected_Image : AppCompatActivity() {
         val str = intent.getStringExtra("adobeSelected")
         val imSelect: Int = Integer.parseInt(str)
 
-        //objImage = getImage()
+        objImage = getImage()
 
         initView(imSelect)
 
 
-            /*if(objImage.id == imSelect) {
+            if(objImage.imageSrc == images[imSelect].imageSrc) {
 
-                images[imSelect].star = Star.STAR
-                star.setImageResource(images[imSelect].star!!.sta)
+                objImage.star = Star.STAR
+                star.setImageResource(objImage.star!!.sta)
             }
             else
             {
-                images[imSelect].star = Star.NOSTAR
-                star.setImageResource(images[imSelect].star!!.sta)
-            }*/
+                objImage.star = Star.NOSTAR
+                star.setImageResource(objImage.star!!.sta)
+            }
 
 
         imageSelected.setImageResource(images[imSelect].imageSrc!!.resource)
         desTxt.setHint(images[imSelect].des!!.txt)
-        star.setImageResource(images[imSelect].star!!.sta)
+       //star.setImageResource(images[imSelect].star!!.sta)
     }
 
 
@@ -69,15 +69,17 @@ class Selected_Image : AppCompatActivity() {
         var starOrn = false
 
         star.setOnClickListener{
-            //saveImage(objImage)
-            if(starOrn){
+            saveImage(images[i])
+            images[i].star = Star.STAR
+            star.setImageResource(images[i].star!!.sta)
+            /*if(starOrn){
                 images[i].star = Star.NOSTAR
                 star.setImageResource(images[i].star!!.sta)
             } else{
                 images[i].star = Star.STAR
                 star.setImageResource(images[i].star!!.sta)
             }
-            starOrn = !starOrn
+            starOrn = !starOrn*/
         }
 
         imageSelected.setOnClickListener {
@@ -88,18 +90,18 @@ class Selected_Image : AppCompatActivity() {
         }
     }
 
-   /* private fun saveImage(image: Image) {
-        preferences.edit().putString(ADOBE_PREFS,moshi.adapter(Image::class.java).toJson(image)).apply()
+    private fun saveImage(image: Image) {
+        preferences.edit().putString("ADOBE_PREFS",moshi.adapter(Image::class.java).toJson(image)).apply()
 
     }
 
     private fun getImage() =
-        preferences.getString(ADOBE_PREFS, null)?.let {
+        preferences.getString("ADOBE_PREFS", null)?.let {
             return@let try {
                 moshi.adapter(Image::class.java).fromJson(it)
             } catch (e: Exception) {
                 Image()
             }
-        } ?: Image()*/
+        } ?: Image()
 
 }
