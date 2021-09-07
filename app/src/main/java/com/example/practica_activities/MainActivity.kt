@@ -1,5 +1,6 @@
 package com.example.practica_activities
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -7,16 +8,23 @@ import android.widget.ImageView
 import com.example.practica_activities.Image.Companion.images
 import androidx.constraintlayout.widget.*
 import android.content.Intent
-
-
+import android.content.SharedPreferences
+import com.squareup.moshi.Moshi
 
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        var doLogout = false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         initView()
+
     }
 
 
