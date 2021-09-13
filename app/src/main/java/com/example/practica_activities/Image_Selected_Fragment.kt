@@ -1,5 +1,6 @@
 package com.example.practica_activities
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.media.MediaPlayer
@@ -30,9 +31,13 @@ class Image_Selected_Fragment : Fragment(R.layout.fragment_image__selected_) {
         val str = requireArguments().getString("key")
         val imSelect: Int = Integer.parseInt(str)
 
-       // objImage = getImage()
+        initView(imSelect,view)
 
-       /* if(objImage.imageSrc == images[imSelect].imageSrc) {
+        preferences = activity?.getSharedPreferences(MY_PREFERENCES,Context.MODE_PRIVATE)!!
+
+        objImage = getImage()
+
+       if(objImage.imageSrc == images[imSelect].imageSrc) {
 
             objImage.star = Star.STAR
             star.setImageResource(objImage.star!!.sta)
@@ -41,13 +46,13 @@ class Image_Selected_Fragment : Fragment(R.layout.fragment_image__selected_) {
         {
             objImage.star = Star.NOSTAR
             star.setImageResource(objImage.star!!.sta)
-        }*/
+        }
 
         initView(imSelect,view)
 
         imageSelected.setImageResource(images[imSelect].imageSrc!!.resource)
         desTxt.setHint(images[imSelect].des!!.txt)
-        star.setImageResource(images[imSelect].star!!.sta)
+       // star.setImageResource(images[imSelect].star!!.sta)
 
         return view
     }
@@ -66,17 +71,18 @@ class Image_Selected_Fragment : Fragment(R.layout.fragment_image__selected_) {
         var starOrn = false
 
         star.setOnClickListener{
-            /* saveImage(images[i])
-             images[i].star = Star.STAR
-             star.setImageResource(images[i].star!!.sta)*/
-             if(starOrn){
-                 images[i].star = Star.NOSTAR
-                 star.setImageResource(images[i].star!!.sta)
-             } else{
-                 images[i].star = Star.STAR
-                 star.setImageResource(images[i].star!!.sta)
-             }
-             starOrn = !starOrn
+
+            // images[i].star = Star.STAR
+            saveImage(images[i])
+            // star.setImageResource(images[i].star!!.sta)
+            if(starOrn){
+                images[i].star = Star.NOSTAR
+                star.setImageResource(images[i].star!!.sta)
+            } else{
+                images[i].star = Star.STAR
+                star.setImageResource(images[i].star!!.sta)
+            }
+            starOrn = !starOrn
         }
 
         imageSelected.setOnClickListener {
@@ -111,6 +117,7 @@ class Image_Selected_Fragment : Fragment(R.layout.fragment_image__selected_) {
 
     private fun saveImage(image: Image) {
         preferences.edit().putString("ADOBE_PREFS",moshi.adapter(Image::class.java).toJson(image)).apply()
+
 
     }
 
