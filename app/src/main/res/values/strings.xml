@@ -12,4 +12,7 @@
     <string name="Description_8">Indesign: this is a app is used for the digital composition of pages developed by the company Adobe Systems</string>
     <string name="Description_9">Experience: this is a app is used to obtain information, content and interaction, among others.</string>
     <string name="Description_10">Illustrator: this is a app is used to assist in all tasks of a digital photographers workflow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pulse">PULSE AQUI PARA COMENZAR</string>
 </resources>

@@ -9,6 +9,10 @@ import com.example.practica_activities.Image.Companion.images
 import androidx.constraintlayout.widget.*
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.MediaPlayer
+import android.view.View
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.squareup.moshi.Moshi
 
 
@@ -17,75 +21,45 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var doLogout = false
     }
-
+    private val KEY = "STATE_KEY"
+    private lateinit var initTxt: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-        initView()
+
+            replaceFragment(MainActivity_Fragment().apply {
+                arguments = Bundle().apply {
+                    putString("key", "This is main fragment")
+
+                }
+            })
+
 
     }
 
 
-    private lateinit var clMenuImage: ConstraintLayout
-    private lateinit var imageSelect: ImageView
-    private lateinit var btnLeft: ImageView
-    private lateinit var btnRight: ImageView
-    private lateinit var btnMoreInfo: Button
-
-    var inum: Int = 0
-
-    private fun initView(){
-        clMenuImage = findViewById(R.id.clMenuImage)
-        imageSelect = findViewById(R.id.imageSelect)
-        btnLeft = findViewById(R.id.btnLeft)
-        btnRight = findViewById(R.id.btnRight)
-        btnMoreInfo = findViewById(R.id.btnMoreInfo)
-
-        imageSelect.setImageResource(images[inum].imageSrc!!.resource)
-
-        btnRight.setOnClickListener{
-            next()
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.run {
+            putBoolean(KEY, false)
         }
 
-        btnLeft.setOnClickListener{
-            previous()
-        }
-        btnMoreInfo.setOnClickListener {
-            val intent = Intent(this, Selected_Image::class.java).apply{
-                putExtra("adobeSelected", inum.toString())
-            }
-            startActivity(intent)
-        }
+        super.onSaveInstanceState(outState)
     }
 
-    private fun next(){
-        when(inum){
-            in 0..8 ->
-            {
-                inum++
-                imageSelect.setImageResource(images[inum].imageSrc!!.resource)
 
-            }
-         else ->
-         {
-             inum = 0
-         }
-        }
-    }
-
-    private fun previous(){
-        when(inum){
-            in 1..9 ->
-            {
-                inum--
-                imageSelect.setImageResource(images[inum].imageSrc!!.resource)
-            }
-            else ->
-            {
-                inum = 9
-            }
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().apply {
+            setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            )
+            replace(R.id.container, fragment)
+            addToBackStack(fragment.tag)
+            commit()
         }
     }
 

@@ -66,7 +66,7 @@ class Selected_Image : AppCompatActivity() {
         imageSelected = findViewById(R.id.imageSelected)
         desTxt = findViewById(R.id.DesTxt)
         star = findViewById(R.id.Star)
-        var starOrn = false
+        //var starOrn = false
 
         star.setOnClickListener{
             saveImage(images[i])
