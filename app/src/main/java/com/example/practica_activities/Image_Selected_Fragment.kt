@@ -21,9 +21,11 @@ class Image_Selected_Fragment : Fragment(R.layout.fragment_image__selected_) {
 
     private val MY_PREFERENCES = "MY_PREFERENCES"
     private val ADOBE_PREFS = "ADOBE_PREFS"
+    private val SONG_PREFS = "SONG_PREFS"
     private lateinit var preferences: SharedPreferences
     private val moshi = Moshi.Builder().build()
     private lateinit var objImage: Image
+    private lateinit var objSong: Image
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -36,6 +38,7 @@ class Image_Selected_Fragment : Fragment(R.layout.fragment_image__selected_) {
         preferences = activity?.getSharedPreferences(MY_PREFERENCES,Context.MODE_PRIVATE)!!
 
         objImage = getImage()
+        objSong = getSong()
 
        if(objImage.imageSrc == images[imSelect].imageSrc) {
 
@@ -48,7 +51,19 @@ class Image_Selected_Fragment : Fragment(R.layout.fragment_image__selected_) {
             star.setImageResource(objImage.star!!.sta)
         }
 
-        initView(imSelect,view)
+
+        if(objSong.imageSrc == images[imSelect].imageSrc) {
+
+            objSong.hearth = R.drawable.ic_hearth
+            heart.setImageResource(objSong.hearth!!)
+        }
+        else
+        {
+            objSong.hearth = R.drawable.ic_empty_hearth
+            heart.setImageResource(objSong.hearth!!)
+        }
+
+        //initView(imSelect,view)
 
         imageSelected.setImageResource(images[imSelect].imageSrc!!.resource)
         desTxt.setHint(images[imSelect].des!!.txt)
@@ -61,14 +76,16 @@ class Image_Selected_Fragment : Fragment(R.layout.fragment_image__selected_) {
     private lateinit var imageSelected: ImageView
     private lateinit var desTxt: TextView
     private lateinit var star: ImageView
-
+    private lateinit var heart: ImageView
 
     private fun initView(i: Int,view: View){
         clSelectImage = view.findViewById(R.id.clSelectImage)
         imageSelected = view.findViewById(R.id.imageSelected)
+        heart = view.findViewById(R.id.Heart)
         desTxt = view.findViewById(R.id.DesTxt)
         star = view.findViewById(R.id.Star)
         var starOrn = false
+        var hearthOrn = false
 
         star.setOnClickListener{
 
@@ -83,6 +100,21 @@ class Image_Selected_Fragment : Fragment(R.layout.fragment_image__selected_) {
                 star.setImageResource(images[i].star!!.sta)
             }
             starOrn = !starOrn
+        }
+
+        heart.setOnClickListener{
+
+
+            saveSong(images[i])
+
+            if(hearthOrn){
+                images[i].hearth = R.drawable.ic_empty_hearth
+                heart.setImageResource(images[i].hearth!!)
+            } else{
+                images[i].hearth = R.drawable.ic_hearth
+                heart.setImageResource(images[i].hearth!!)
+            }
+            hearthOrn = !hearthOrn
         }
 
         imageSelected.setOnClickListener {
@@ -118,11 +150,24 @@ class Image_Selected_Fragment : Fragment(R.layout.fragment_image__selected_) {
     private fun saveImage(image: Image) {
         preferences.edit().putString("ADOBE_PREFS",moshi.adapter(Image::class.java).toJson(image)).apply()
 
+    }
+
+    private fun saveSong(image: Image) {
+        preferences.edit().putString("SONG_PREFS",moshi.adapter(Image::class.java).toJson(image)).apply()
 
     }
 
     private fun getImage() =
         preferences.getString("ADOBE_PREFS", null)?.let {
+            return@let try {
+                moshi.adapter(Image::class.java).fromJson(it)
+            } catch (e: Exception) {
+                Image()
+            }
+        } ?: Image()
+
+    private fun getSong() =
+        preferences.getString("SONG_PREFS", null)?.let {
             return@let try {
                 moshi.adapter(Image::class.java).fromJson(it)
             } catch (e: Exception) {

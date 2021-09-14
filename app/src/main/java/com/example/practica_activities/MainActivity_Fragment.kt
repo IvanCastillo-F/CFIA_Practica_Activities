@@ -1,5 +1,7 @@
 package com.example.practica_activities
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.TextUtils.replace
@@ -14,12 +16,17 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.practica_activities.R.layout.activity_main
 import androidx.fragment.app.FragmentTransaction
+import com.squareup.moshi.Moshi
 
 
 class MainActivity_Fragment : Fragment(R.layout.fragment_main_activity_) {
 
-
     private val KEY = "STATE_KEY"
+    private lateinit var preferences: SharedPreferences
+    private val moshi = Moshi.Builder().build()
+    private val MY_PREFERENCES = "MY_PREFERENCES"
+    private lateinit var objSong: Image
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         var view = inflater.inflate(R.layout.fragment_main_activity_, container, false);
@@ -27,10 +34,19 @@ class MainActivity_Fragment : Fragment(R.layout.fragment_main_activity_) {
 
         initView(view)
 
+        preferences = activity?.getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE)!!
+
+        objSong = getSong()
+
         fun playSound(sound: Int){
             var mp = MediaPlayer.create(getActivity(), sound);
             mp.start()
         }
+
+        favoriteSong.setOnClickListener {
+            objSong.sound?.let { it1 -> playSound(it1) }
+        }
+
         btnMoreInfo.setOnClickListener {
             replaceFragment(Image_Selected_Fragment().apply {
                 arguments = Bundle().apply {
@@ -40,6 +56,7 @@ class MainActivity_Fragment : Fragment(R.layout.fragment_main_activity_) {
 
             images[inum].sound?.let { it1 -> playSound(it1) }
         }
+
         return view
     }
 
@@ -47,6 +64,7 @@ class MainActivity_Fragment : Fragment(R.layout.fragment_main_activity_) {
     private lateinit var imageSelect: ImageView
     private lateinit var btnLeft: ImageView
     private lateinit var btnRight: ImageView
+    private lateinit var favoriteSong: ImageView
     private lateinit var btnMoreInfo: Button
 
     var inum: Int = 0
@@ -56,6 +74,7 @@ class MainActivity_Fragment : Fragment(R.layout.fragment_main_activity_) {
         imageSelect = view.findViewById(R.id.imageSelect)
         btnLeft = view.findViewById(R.id.btnLeft)
         btnRight = view.findViewById(R.id.btnRight)
+        favoriteSong = view.findViewById(R.id.favoriteSong)
         btnMoreInfo = view.findViewById(R.id.btnMoreInfo)
         imageSelect.setImageResource(Image.images[inum].imageSrc!!.resource)
 
@@ -101,6 +120,14 @@ class MainActivity_Fragment : Fragment(R.layout.fragment_main_activity_) {
         }
     }
 
+    private fun getSong() =
+        preferences.getString("SONG_PREFS", null)?.let {
+            return@let try {
+                moshi.adapter(Image::class.java).fromJson(it)
+            } catch (e: Exception) {
+                Image()
+            }
+        } ?: Image()
 
 
     private fun replaceFragment(fragment: Fragment) {
